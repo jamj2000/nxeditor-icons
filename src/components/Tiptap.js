@@ -25,12 +25,22 @@ import {
   Minus,
   Undo,
   Redo,
-  Palette
+  Palette,
+  Codepen,
+  Code,
+  Quote,
+  RemoveFormatting,
+  Delete
 } from 'lucide-react'
+import { useState } from 'react'
+
 
 
 
 const MenuBar = () => {
+
+  const [color, setColor] = useState('#000000')
+
   const { editor } = useCurrentEditor()
 
   if (!editor) {
@@ -39,9 +49,9 @@ const MenuBar = () => {
 
   return (
     <>
-      <input type="hidden" name='campo' defaultValue={editor.getHTML()} />  {/* Campo asociado dentro de un formulario */}
+      <input type="hidden" name='campo' defaultValue={editor.getHTML()} />  {/* Campo asociado dentro del formulario padre */}
 
-      <Bold title={'Negrita'} strokeWidth={4}
+      <Bold strokeWidth={4}
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={
           !editor.can()
@@ -127,13 +137,6 @@ const MenuBar = () => {
         className={editor.isActive('orderedList') ? 'editor-option is-active' : 'editor-option'}
       />
 
-      <input type="color" id="head" name="head" value="#e66465" />
-
-      <Palette
-        onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-        className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'editor-option is-active' : 'editor-option'}
-      />
-
       <Undo
         onClick={() => editor.chain().focus().undo().run()}
         disabled={
@@ -158,10 +161,7 @@ const MenuBar = () => {
         className='editor-option'
       />
 
-
-
-
-      <span
+      <Code
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={
           !editor.can()
@@ -171,35 +171,56 @@ const MenuBar = () => {
             .run()
         }
         className={editor.isActive('code') ? 'editor-option is-active' : 'editor-option'}
-      >
-        code
-      </span>
+      />
 
-      <span
+      <Codepen
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? 'editor-option is-active' : 'editor-option'}
-      >
-        code block
-      </span>
-      <span
+      />
+
+      <Quote
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? 'editor-option is-active' : 'editor-option'}
-      >
-        blockquote
-      </span>
+      />
+
 
       <Minus
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         className='editor-option'
       />
 
-      <span onClick={() => editor.chain().focus().unsetAllMarks().run()} className='editor-option'>
-        clear marks
-      </span>
+      <RemoveFormatting
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        className='editor-option'
+      />
 
-      <span onClick={() => editor.chain().focus().clearNodes().run()} className='editor-option'>
-        clear nodes
-      </span>
+      <Delete
+        onClick={() => editor.chain().focus().clearNodes().run()}
+        className='editor-option'
+      />
+
+      <Palette
+        id='paleta'
+        onMouseOver={e => {
+          document.getElementById('paleta').style.display = 'none';
+          document.getElementById('color').style.display = 'inline'
+          editor.chain().blur().run();
+        }}
+        className='editor-option'
+      />
+
+      <input id='color' type="color" defaultValue={color}
+        onChange={e => {
+          setColor(e.target.value);
+          editor.chain().setColor(color).run();
+        }}
+        onMouseOut={e => {
+          document.getElementById('color').style.display = 'none'
+          document.getElementById('paleta').style.display = 'inline'
+          editor.chain().focus().run();
+        }}
+        className='editor-option'
+      />
 
     </>
   )

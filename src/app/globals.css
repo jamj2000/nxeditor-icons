@@ -1,7 +1,20 @@
+input[type=color] {
+    display: none;
+    margin: 0;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    translate: 0 -6px
+}
+
+input[type=color]:hover {
+    translate: -1px -7px
+}
+
 /*  Estilos de la barra de menús del editor */
 .editor-option {
     display: inline-block;
-    /* margin-inline: 2px; */
     padding: 4px;
     background-color: whitesmoke;
     color: black;
@@ -11,6 +24,7 @@
 
 .editor-option:hover {
     translate: -1px -1px;
+    /* margin: -1px -1px; */
     box-shadow: 1px 1px 2px lightgray;
 }
 
@@ -48,6 +62,18 @@
     list-style-type: decimal;
 }
 
+.tiptap blockquote::before {
+    content: '❝'
+}
+
+.tiptap blockquote::after {
+    content: '❞'
+}
+
+.tiptap p {
+    padding-top: 0;
+    margin: 0;
+}
 
 
 /* Estilos de los iconos */
@@ -61,3 +87,4 @@
     stroke-width: 1px;
     */
 }
+
