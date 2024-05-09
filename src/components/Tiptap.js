@@ -39,13 +39,13 @@ import { useState } from 'react'
 
 const MenuBar = () => {
 
-  const [color, setColor] = useState('#000000')
-
   const { editor } = useCurrentEditor()
 
   if (!editor) {
     return null
   }
+
+  const [color, setColor] = useState('#000000')
 
   return (
     <>
