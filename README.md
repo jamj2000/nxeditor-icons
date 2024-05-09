@@ -1,7 +1,6 @@
 
 ## Getting Started
 
-Run
 
 ```bash
 npm run dev
